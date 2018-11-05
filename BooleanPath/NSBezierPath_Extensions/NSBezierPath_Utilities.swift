@@ -45,6 +45,31 @@ public extension NSBezierPath {
         return path
     }
     
+    var dividedPaths: [NSBezierPath] {
+        var path: NSBezierPath?
+        var paths = [NSBezierPath]()
+        var points = [NSPoint](repeating: NSPoint.zero, count: 3)
+        for i in (0 ..< self.elementCount) {
+            switch self.element(at: i, associatedPoints: &points) {
+            case .moveTo:
+                path = NSBezierPath()
+                path?.move(to: NSPoint(x: points[0].x, y: points[0].y))
+            case .lineTo:
+                path?.line(to: NSPoint(x: points[0].x, y: points[0].y))
+            case .curveTo:
+                path?.curve(to: NSPoint(x: points[2].x, y: points[2].y),
+                            controlPoint1: NSPoint(x: points[0].x, y: points[0].y),
+                            controlPoint2: NSPoint(x: points[1].x, y: points[1].y))
+            case .closePath:
+                if let path = path {
+                    paths.append(path)
+                }
+                path = nil
+            }
+        }
+        return paths
+    }
+    
     func copyAttributesFrom(_ path: NSBezierPath) {
         self.lineWidth = path.lineWidth
         self.lineCapStyle = path.lineCapStyle
@@ -103,6 +128,22 @@ public extension NSBezierPath {
         path.line(to: basePoint1)
         path.close()
         return path
+    }
+    
+    func callPath() {
+        var points = [NSPoint](repeating: NSPoint.zero, count: 3)
+        for i in (0 ..< self.elementCount) {
+            switch self.element(at: i, associatedPoints: &points) {
+            case .moveTo:
+                Swift.print("moveTo: (\(points[0].x), \(points[0].y))")
+            case .lineTo:
+                Swift.print("lineTo: (\(points[0].x), \(points[0].y))")
+            case .curveTo:
+                Swift.print("moveTo: (\(points[2].x), \(points[2].y)), (\(points[0].x), \(points[0].y)), (\(points[1].x), \(points[1].y))")
+            case .closePath:
+                Swift.print("close")
+            }
+        }
     }
     
 }

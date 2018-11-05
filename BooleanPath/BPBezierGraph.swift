@@ -359,6 +359,7 @@ class BPBezierGraph {
         }
     }
     
+    // don't use this function
     func difference(with graph: BPBezierGraph) -> BPBezierGraph {
         insertCrossingsWithBezierGraph(graph)
         insertSelfCrossings()
