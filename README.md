@@ -1,12 +1,49 @@
-# Swift BooleanPath for macOS
-Boolean Function for NSBezierPath
-
-### Notes
-- The current version for Xcode10 Swift4 is available.
+# BooleanPath for macOS
+Add boolean operations to NSBezierPath like the pathfinder of Adobe Illustrator.
 
 ## About BooleanPath
-This is an macOS rewite of the code for Leslie Titze's [VectorBoolean](https://github.com/lrtitze/Swift-VectorBoolean).
+This is a rewrite of [VectorBoolean](https://github.com/lrtitze/Swift-VectorBoolean) written by Leslie Titze's.  
+BooleanPath is written by Swift for macOS.
 
-It compiles under Xcode10 and includes an macOS app which shows the example of using the code.
+## Installation
+### CocoaPods
+```
+pod 'BooleanPath'
+```
 
-<img src="sample.png" width="630" height="219">
+### Carthage
+```
+github "Kyome22/BooleanPath"
+```
+
+## Demo
+
+The sample code is in the project.
+
+![sample](https://github.com/Kyome22/BooleanPath/blob/master/images/sample.png)
+
+## Usage (Example)
+
+```swift
+import Cocoa
+import BooleanPath
+
+let rectPath = NSBezierPath(rect: NSRect(x: 10, y: 30, width: 60, height: 60))
+let circlePath = NSBezierPath(ovalIn: NSRect(x: 25, y: 15, width: 50, height: 50))
+  
+// Union        
+let unionPath: NSBezierPath = rectPath.union(circlePath)
+unionPath.fill()
+
+// Intersection
+let intersectionPath: NSBezierPath = rectPath.intersection(circlePath)
+intersectionPath.fill()
+        
+// Subtraction
+let subtractionPath: NSBezierPath = rectPath.subtraction(circlePath)
+subtractionPath.fill()
+        
+// Difference
+let differencePath: NSBezierPath = rectPath.difference(circlePath)
+differencePath.fill()
+```
