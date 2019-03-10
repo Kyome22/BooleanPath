@@ -1,0 +1,4 @@
+framework module BooleanPath {
+  header "BooleanPath-Swift.h"
+  requires objc
+}
